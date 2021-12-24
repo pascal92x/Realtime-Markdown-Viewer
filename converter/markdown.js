@@ -99,6 +99,15 @@ var parseNewLine = function(str) {
   return str;
  }
 
+ var parseImage = function(str) {
+  var imageRegExp = /(!\[.*?]\()(.+?)(\))/g;
+  var stra = [];
+  while ((stra = imageRegExp.exec(str)) !== null) {
+    str = str.replace(stra[0], '<img src="' +stra[2] + '">');
+  }
+  return str;
+ }
+
 var markdown = {
   parse: function (str, strict) {
     'use strict';
@@ -107,13 +116,14 @@ var markdown = {
     str = parseBold(str);
     str = parseItalic(str);
     str = parseStrong(str);
-    str = parseHorizontaleLine(str);
     str = parseLink(str);
     str = parseCode(str);
     str = parseBlockQuote(str);
     str = parseDel(str);
     str = parseCodeBlock(str);
     str = parseHorizontaleLine(str);
+    str = parseImage(str);
+
     return str;
   }
 };
